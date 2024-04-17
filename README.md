@@ -6,3 +6,6 @@ Account haben, in dem sie ihre Reisen und die entsprechenden Ausgaben speichern 
 implementiert werden, in der der Nutzer einen weiteren Mitreisenden anlegt, damit die Ausgaben untereinander aufgeteilt 
 werden können. Die Unterschiede sollen dann am Ende der Reise der ggf. auch währenddessen nach Bedarf ausgerechnet 
 werden, damit jeder weiß, wer wem wie viel schuldet
+
+Die Entity Klasse besteht aus den einzelnen Ausgaben, dem Namen der Ausgabe und der Person der die Ausgabe zuzuordnen
+ist.
