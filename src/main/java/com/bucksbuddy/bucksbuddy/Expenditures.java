@@ -6,11 +6,16 @@ import jakarta.persistence.*;
 @Table(name = "expenditures")
 public class Expenditures {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
     private String name;
     private double amount;
     private String person;
     private String currency;
+
+    // No-argument constructor
+    public Expenditures() {
+    }
 
     public Expenditures(int id, String name, double amount, String person, String currency) {
         this.id = id;
@@ -18,7 +23,10 @@ public class Expenditures {
         this.amount = amount;
         this.person = person;
         this.currency = currency;
+    }
 
+    public int getId() {
+        return id;
     }
 
     public String getName() {
@@ -33,6 +41,14 @@ public class Expenditures {
         return person;
     }
 
+    public String getCurrency() {
+        return currency;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
     public void setName(String name) {
         this.name = name;
     }
@@ -43,5 +59,9 @@ public class Expenditures {
 
     public void setPerson(String person) {
         this.person = person;
+    }
+
+    public void setCurrency(String currency) {
+        this.currency = currency;
     }
 }
