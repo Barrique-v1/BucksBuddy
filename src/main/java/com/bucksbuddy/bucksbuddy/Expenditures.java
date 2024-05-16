@@ -13,7 +13,6 @@ public class Expenditures {
     private String person;
     private String currency;
 
-    // No-argument constructor
     public Expenditures() {
     }
 
@@ -64,4 +63,5 @@ public class Expenditures {
     public void setCurrency(String currency) {
         this.currency = currency;
     }
+
 }
