@@ -4,7 +4,7 @@ import jakarta.persistence.*;
 
 @Entity
 @Table(name = "expenditures")
-public class Expenditures {
+public class Expenditure {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
@@ -13,10 +13,10 @@ public class Expenditures {
     private String person;
     private String currency;
 
-    public Expenditures() {
+    public Expenditure() {
     }
 
-    public Expenditures(int id, String name, double amount, String person, String currency) {
+    public Expenditure(int id, String name, double amount, String person, String currency) {
         this.id = id;
         this.name = name;
         this.amount = amount;
