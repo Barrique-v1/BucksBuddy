@@ -1,4 +1,4 @@
-package com.bucksbuddy.bucksbuddy;
+package com.bucksbuddy.bucksbuddy.expenture;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -12,7 +12,7 @@ import java.util.Optional;
 public class ExpendController {
 
     @Autowired
-    ExpendRepo repo;
+    ExpendRepository repo;
 
     // get expense by id
     @GetMapping("/expense")

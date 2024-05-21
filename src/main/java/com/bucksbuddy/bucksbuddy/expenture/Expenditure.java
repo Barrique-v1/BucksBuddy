@@ -1,4 +1,4 @@
-package com.bucksbuddy.bucksbuddy;
+package com.bucksbuddy.bucksbuddy.expenture;
 
 import jakarta.persistence.*;
 

@@ -1,4 +1,4 @@
-package com.bucksbuddy.bucksbuddy;
+package com.bucksbuddy.bucksbuddy.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
