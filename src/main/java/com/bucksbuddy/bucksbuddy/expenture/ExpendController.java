@@ -15,7 +15,7 @@ public class ExpendController {
     ExpendRepository repo;
 
     // get expense by id
-    @GetMapping("/expense")
+    @GetMapping("/expenditure")
     public ResponseEntity<Expenditure> getExpenditureById(@RequestParam(value = "id") int id) {
         Optional<Expenditure> expenditureInDB = repo.findById(id);
         if (!expenditureInDB.isPresent()) {
@@ -24,21 +24,21 @@ public class ExpendController {
         return new ResponseEntity<>(expenditureInDB.get(), HttpStatus.OK);
     }
     // get all expenses
-    @GetMapping("/expenses")
+    @GetMapping("/expenditures")
     public ResponseEntity<Iterable<Expenditure>> getExpenditures() {
         Iterable<Expenditure> expenditures = repo.findAll();
         return new ResponseEntity<>(expenditures, HttpStatus.OK);
     }
 
     // create expense
-    @PostMapping("/expense")
+    @PostMapping("/expenditure")
     public ResponseEntity<Expenditure> createExpenditure(@RequestBody Expenditure newExpenditure){
         repo.save(newExpenditure);
         return new ResponseEntity<>(newExpenditure, HttpStatus.OK);
     }
 
     // delete expense by id
-    @DeleteMapping("/expense")
+    @DeleteMapping("/expenditure")
     public ResponseEntity deleteExpenditure(@RequestParam(value = "id") int id) {
         Optional<Expenditure> expenditureInDB = repo.findById(id);
         if (!expenditureInDB.isPresent()) {
@@ -49,7 +49,7 @@ public class ExpendController {
     }
 
     // update expense
-    @PutMapping("/expense")
+    @PutMapping("/expenditure")
     public ResponseEntity<Expenditure> updateExpenditure(@RequestBody Expenditure updatedExpenditure) {
         Optional<Expenditure> expenditureInDB = repo.findById(updatedExpenditure.getId());
         if (!expenditureInDB.isPresent()) {
