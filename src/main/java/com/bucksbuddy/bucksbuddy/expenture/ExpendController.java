@@ -16,7 +16,6 @@ public class ExpendController {
     ExpendRepository repo;
 
     // get expense by id
-    @CrossOrigin(origins = "https://bucksbuddyfrontend.onrender.com")
     @GetMapping("/expenditure")
     public ResponseEntity<Expenditure> getExpenditureById(@RequestParam(value = "id") int id) {
         Optional<Expenditure> expenditureInDB = repo.findById(id);
