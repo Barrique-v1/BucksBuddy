@@ -13,11 +13,11 @@ public class WebConfig {
         return new WebMvcConfigurer() {
             @Override
             public void addCorsMappings(CorsRegistry registry) {
-                registry.addMapping("/api/**") // Erlaubt CORS für alle Endpunkte
-                        .allowedOrigins("http://localhost:5173") // Erlaubt Anfragen von dieser Origin
-                        .allowedMethods("GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS") // Erlaubt diese HTTP-Methoden
-                        .allowedHeaders("*") // Erlaubt alle Header
-                        .allowCredentials(true); // Erlaubt das Senden von Cookies
+                registry.addMapping("/api/**")
+                        .allowedOrigins("https://bucksbuddyfrontend.onrender.com")
+                        .allowedMethods("GET", "POST", "PUT", "DELETE")
+                        .allowedHeaders("*")
+                        .allowCredentials(true);
             }
         };
     }
