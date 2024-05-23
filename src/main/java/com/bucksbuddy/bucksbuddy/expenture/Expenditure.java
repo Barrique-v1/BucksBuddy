@@ -1,27 +1,25 @@
-package com.bucksbuddy.bucksbuddy;
+package com.bucksbuddy.bucksbuddy.expenture;
 
 import jakarta.persistence.*;
 
+import java.util.Date;
+
 @Entity
 @Table(name = "expenditures")
-public class Expenditures {
+public class Expenditure {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
     private String name;
     private double amount;
-    private String person;
-    private String currency;
 
-    public Expenditures() {
+    public Expenditure() {
     }
 
-    public Expenditures(int id, String name, double amount, String person, String currency) {
+    public Expenditure(int id, String name, double amount) {
         this.id = id;
         this.name = name;
         this.amount = amount;
-        this.person = person;
-        this.currency = currency;
     }
 
     public int getId() {
@@ -36,13 +34,6 @@ public class Expenditures {
         return amount;
     }
 
-    public String getPerson() {
-        return person;
-    }
-
-    public String getCurrency() {
-        return currency;
-    }
 
     public void setId(int id) {
         this.id = id;
@@ -55,13 +46,4 @@ public class Expenditures {
     public void setAmount(double amount) {
         this.amount = amount;
     }
-
-    public void setPerson(String person) {
-        this.person = person;
-    }
-
-    public void setCurrency(String currency) {
-        this.currency = currency;
-    }
-
 }
