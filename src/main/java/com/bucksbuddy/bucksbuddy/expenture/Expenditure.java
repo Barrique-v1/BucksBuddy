@@ -12,6 +12,7 @@ public class Expenditure {
     private int id;
     private String name;
     private double amount;
+    private Date date;
 
     public Expenditure() {
     }
@@ -20,6 +21,7 @@ public class Expenditure {
         this.id = id;
         this.name = name;
         this.amount = amount;
+        this.date = new Date();
     }
 
     public int getId() {
@@ -45,5 +47,13 @@ public class Expenditure {
 
     public void setAmount(double amount) {
         this.amount = amount;
+    }
+
+    public Date getDate() {
+        return date;
+    }
+
+    public void setDate(Date date) {
+        this.date = date;
     }
 }
