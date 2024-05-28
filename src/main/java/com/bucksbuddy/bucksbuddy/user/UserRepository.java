@@ -1,4 +1,9 @@
 package com.bucksbuddy.bucksbuddy.user;
 
-public class UserRepository {
+import com.bucksbuddy.bucksbuddy.expenture.Expenditure;
+import org.springframework.data.repository.CrudRepository;
+import org.springframework.stereotype.Repository;
+
+@Repository
+public interface UserRepository extends CrudRepository<User, Integer>{
 }
