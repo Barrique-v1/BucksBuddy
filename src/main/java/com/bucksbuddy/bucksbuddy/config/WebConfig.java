@@ -15,9 +15,11 @@ public class WebConfig {
             public void addCorsMappings(CorsRegistry registry) {
                 registry.addMapping("/api/**")
                         // For local development
-                        .allowedOrigins("http://localhost:5173")
+                        .allowedOrigins("http://localhost:5173",
+                                "https://bucksbuddybackend.onrender.com/")
+
                         // For Render deployment
-                        // .allowedOrigins("https://bucksbuddyfrontend.onrender.com")
+
                         .allowedMethods("GET", "POST", "PUT", "DELETE")
                         .allowedHeaders("*")
                         .allowCredentials(true);
