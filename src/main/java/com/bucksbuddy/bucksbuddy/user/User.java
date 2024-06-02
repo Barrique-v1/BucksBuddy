@@ -1,6 +1,7 @@
 package com.bucksbuddy.bucksbuddy.user;
 
 import com.bucksbuddy.bucksbuddy.expenture.Expenditure;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 
 import java.util.HashSet;
@@ -21,6 +22,7 @@ public class User {
     private String password;
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonManagedReference
     private Set<Expenditure> expenditures = new HashSet<>();
 
     public User() {

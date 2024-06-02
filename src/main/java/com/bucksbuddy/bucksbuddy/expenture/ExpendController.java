@@ -1,5 +1,7 @@
 package com.bucksbuddy.bucksbuddy.expenture;
 
+import com.bucksbuddy.bucksbuddy.user.User;
+import com.bucksbuddy.bucksbuddy.user.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -14,6 +16,9 @@ public class ExpendController {
 
     @Autowired
     ExpendRepository repo;
+
+    @Autowired
+    UserRepository userRepository;
 
     // get expense by id
     @GetMapping("/expenditure")
@@ -36,6 +41,19 @@ public class ExpendController {
     public ResponseEntity<Expenditure> createExpenditure(@RequestBody Expenditure newExpenditure){
         repo.save(newExpenditure);
         return new ResponseEntity<>(newExpenditure, HttpStatus.OK);
+    }
+
+    // create expense for user
+    @PostMapping("/users/{userId}/expenditures")
+    public Expenditure createExpenditure(@PathVariable int userId, @RequestBody Expenditure expenditure) {
+        Optional<User> userOptional = userRepository.findById(userId);
+        if (userOptional.isPresent()) {
+            User user = userOptional.get();
+            expenditure.setUser(user); // Setze den User im Expenditure-Objekt
+            return repo.save(expenditure);
+        } else {
+            throw new RuntimeException("User not found");
+        }
     }
 
     // delete expense by id

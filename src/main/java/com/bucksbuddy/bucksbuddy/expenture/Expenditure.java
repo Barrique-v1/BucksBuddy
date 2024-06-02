@@ -1,6 +1,7 @@
 package com.bucksbuddy.bucksbuddy.expenture;
 
 import com.bucksbuddy.bucksbuddy.user.User;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 
 import java.util.Date;
@@ -17,6 +18,7 @@ public class Expenditure {
 
     @ManyToOne
     @JoinColumn(name = "user_id") // Dies ist die Fremdschlüssel-Spalte
+    @JsonBackReference
     private User user;
 
     public Expenditure() {
