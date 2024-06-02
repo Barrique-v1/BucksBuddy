@@ -1,4 +1,4 @@
-package com.bucksbuddy.bucksbuddy.expenture;
+package com.bucksbuddy.bucksbuddy.user.journey.expenture;
 
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;

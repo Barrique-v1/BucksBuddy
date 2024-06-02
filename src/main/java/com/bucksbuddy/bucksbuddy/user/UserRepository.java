@@ -1,6 +1,5 @@
 package com.bucksbuddy.bucksbuddy.user;
 
-import com.bucksbuddy.bucksbuddy.expenture.Expenditure;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 

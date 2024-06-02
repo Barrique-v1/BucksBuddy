@@ -1,6 +1,6 @@
-package com.bucksbuddy.bucksbuddy.expenture;
+package com.bucksbuddy.bucksbuddy.user.journey.expenture;
 
-import com.bucksbuddy.bucksbuddy.user.User;
+import com.bucksbuddy.bucksbuddy.journey.Journey;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 
@@ -17,19 +17,19 @@ public class Expenditure {
     private Date date;
 
     @ManyToOne
-    @JoinColumn(name = "user_id") // Dies ist die Fremdschlüssel-Spalte
+    @JoinColumn(name = "journey_id")
     @JsonBackReference
-    private User user;
+    private Journey journey;
 
     public Expenditure() {
         this.date = new Date(); // Initialisiere das Datum mit dem aktuellen Datum
     }
 
-    public Expenditure(String name, double amount, User user) {
+    public Expenditure(String name, double amount, Journey journey) {
         this.name = name;
         this.amount = amount;
         this.date = new Date();
-        this.user = user;
+        this.journey = journey;
     }
 
     // Getter und Setter...
@@ -65,11 +65,11 @@ public class Expenditure {
         this.date = date;
     }
 
-    public User getUser() {
-        return user;
+    public Journey getJourney() {
+        return journey;
     }
 
-    public void setUser(User user) {
-        this.user = user;
+    public void setJourney(Journey journey) {
+        this.journey = journey;
     }
 }

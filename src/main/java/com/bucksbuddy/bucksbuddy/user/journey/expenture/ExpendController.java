@@ -1,7 +1,5 @@
-package com.bucksbuddy.bucksbuddy.expenture;
+package com.bucksbuddy.bucksbuddy.user.journey.expenture;
 
-import com.bucksbuddy.bucksbuddy.user.User;
-import com.bucksbuddy.bucksbuddy.user.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -15,15 +13,12 @@ import java.util.Optional;
 public class ExpendController {
 
     @Autowired
-    ExpendRepository repo;
-
-    @Autowired
-    UserRepository userRepository;
+    ExpendRepository expendRepository;
 
     // get expense by id
     @GetMapping("/expenditure")
     public ResponseEntity<Expenditure> getExpenditureById(@RequestParam(value = "id") int id) {
-        Optional<Expenditure> expenditureInDB = repo.findById(id);
+        Optional<Expenditure> expenditureInDB = expendRepository.findById(id);
         if (!expenditureInDB.isPresent()) {
             return new ResponseEntity("No expenditure found with id " + id, HttpStatus.NOT_FOUND);
         }
@@ -32,49 +27,36 @@ public class ExpendController {
     // get all expenses
     @GetMapping("/expenditures")
     public ResponseEntity<Iterable<Expenditure>> getExpenditures() {
-        Iterable<Expenditure> expenditures = repo.findAll();
+        Iterable<Expenditure> expenditures = expendRepository.findAll();
         return new ResponseEntity<>(expenditures, HttpStatus.OK);
     }
 
     // create expense
     @PostMapping("/expenditure")
     public ResponseEntity<Expenditure> createExpenditure(@RequestBody Expenditure newExpenditure){
-        repo.save(newExpenditure);
+        expendRepository.save(newExpenditure);
         return new ResponseEntity<>(newExpenditure, HttpStatus.OK);
-    }
-
-    // create expense for user
-    @PostMapping("/users/{userId}/expenditures")
-    public Expenditure createExpenditure(@PathVariable int userId, @RequestBody Expenditure expenditure) {
-        Optional<User> userOptional = userRepository.findById(userId);
-        if (userOptional.isPresent()) {
-            User user = userOptional.get();
-            expenditure.setUser(user); // Setze den User im Expenditure-Objekt
-            return repo.save(expenditure);
-        } else {
-            throw new RuntimeException("User not found");
-        }
     }
 
     // delete expense by id
     @DeleteMapping("/expenditure")
     public ResponseEntity deleteExpenditure(@RequestParam(value = "id") int id) {
-        Optional<Expenditure> expenditureInDB = repo.findById(id);
+        Optional<Expenditure> expenditureInDB = expendRepository.findById(id);
         if (!expenditureInDB.isPresent()) {
             return new ResponseEntity("No expenditure found with id " + id, HttpStatus.NOT_FOUND);
         }
-        repo.delete(expenditureInDB.get());
+        expendRepository.delete(expenditureInDB.get());
         return new ResponseEntity("Expenditure with id " + id + " deleted", HttpStatus.OK);
     }
 
     // update expense
     @PutMapping("/expenditure")
     public ResponseEntity<Expenditure> updateExpenditure(@RequestBody Expenditure updatedExpenditure) {
-        Optional<Expenditure> expenditureInDB = repo.findById(updatedExpenditure.getId());
+        Optional<Expenditure> expenditureInDB = expendRepository.findById(updatedExpenditure.getId());
         if (!expenditureInDB.isPresent()) {
             return new ResponseEntity("No expenditure found with id " + updatedExpenditure.getId(), HttpStatus.NOT_FOUND);
         }
-        repo.save(updatedExpenditure);
+        expendRepository.save(updatedExpenditure);
         return new ResponseEntity<>(updatedExpenditure, HttpStatus.OK);
     }
 }
