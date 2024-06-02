@@ -17,6 +17,10 @@ public class Journey {
     private int id;
     private String destination;
 
+    // später hinzufügen wenn's läuft
+    //    private String homeCurrency;
+    //    private String foreignCurrency;
+
     @ManyToOne
     @JoinColumn(name = "user_id")
     @JsonBackReference
