@@ -1,4 +1,4 @@
-package com.bucksbuddy.bucksbuddy.user.journey;
+package com.bucksbuddy.bucksbuddy.journey;
 
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;

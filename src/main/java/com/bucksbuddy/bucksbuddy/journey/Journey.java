@@ -1,6 +1,6 @@
-package com.bucksbuddy.bucksbuddy.user.journey;
+package com.bucksbuddy.bucksbuddy.journey;
 
-import com.bucksbuddy.bucksbuddy.user.journey.expenture.Expenditure;
+import com.bucksbuddy.bucksbuddy.expenditure.Expenditure;
 import com.bucksbuddy.bucksbuddy.user.User;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;

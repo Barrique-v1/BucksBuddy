@@ -1,6 +1,6 @@
 package com.bucksbuddy.bucksbuddy.user;
 
-import com.bucksbuddy.bucksbuddy.user.journey.Journey;
+import com.bucksbuddy.bucksbuddy.journey.Journey;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 

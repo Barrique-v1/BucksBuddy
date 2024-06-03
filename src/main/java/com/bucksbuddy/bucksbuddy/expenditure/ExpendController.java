@@ -1,4 +1,4 @@
-package com.bucksbuddy.bucksbuddy.user.journey.expenture;
+package com.bucksbuddy.bucksbuddy.expenditure;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
