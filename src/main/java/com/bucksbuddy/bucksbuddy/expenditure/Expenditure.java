@@ -1,7 +1,6 @@
 package com.bucksbuddy.bucksbuddy.expenditure;
 
-import com.bucksbuddy.bucksbuddy.journey.Journey;
-import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.bucksbuddy.bucksbuddy.user.User;
 import jakarta.persistence.*;
 
 import java.util.Date;
@@ -9,30 +8,32 @@ import java.util.Date;
 @Entity
 @Table(name = "expenditures")
 public class Expenditure {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
+
     private String name;
     private double amount;
+
+    @Temporal(TemporalType.DATE)
     private Date date;
 
     @ManyToOne
-    @JoinColumn(name = "journey_id")
-    @JsonBackReference
-    private Journey journey;
+    @JoinColumn(name = "user_id", nullable = false)
+    private User user;
 
     public Expenditure() {
         this.date = new Date(); // Initialisiere das Datum mit dem aktuellen Datum
     }
 
-    public Expenditure(String name, double amount, Journey journey) {
+    public Expenditure(String name, double amount, User user) {
         this.name = name;
         this.amount = amount;
         this.date = new Date();
-        this.journey = journey;
+        this.user = user;
     }
 
-    // Getter und Setter...
     public int getId() {
         return id;
     }
@@ -65,11 +66,11 @@ public class Expenditure {
         this.date = date;
     }
 
-    public Journey getJourney() {
-        return journey;
+    public User getUser() {
+        return user;
     }
 
-    public void setJourney(Journey journey) {
-        this.journey = journey;
+    public void setUser(User user) {
+        this.user = user;
     }
 }
