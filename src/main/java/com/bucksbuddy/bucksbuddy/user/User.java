@@ -1,7 +1,6 @@
 package com.bucksbuddy.bucksbuddy.user;
 
 import com.bucksbuddy.bucksbuddy.expenditure.Expenditure;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 
