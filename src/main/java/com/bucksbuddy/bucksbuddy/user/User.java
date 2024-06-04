@@ -2,6 +2,7 @@ package com.bucksbuddy.bucksbuddy.user;
 
 import com.bucksbuddy.bucksbuddy.expenditure.Expenditure;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 
 import java.util.Set;
@@ -21,6 +22,7 @@ public class User {
     private String password;
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonManagedReference
     private Set<Expenditure> expenditures;
 
     public User() {

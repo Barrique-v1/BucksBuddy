@@ -1,6 +1,7 @@
 package com.bucksbuddy.bucksbuddy.expenditure;
 
 import com.bucksbuddy.bucksbuddy.user.User;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 
 import java.util.Date;
@@ -21,6 +22,7 @@ public class Expenditure {
 
     @ManyToOne
     @JoinColumn(name = "user_id", nullable = false)
+    @JsonBackReference
     private User user;
 
     public Expenditure() {
