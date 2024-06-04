@@ -37,4 +37,10 @@ public class UserController {
     public User updateUser(@PathVariable int id, @RequestBody User userDetails) {
         return userService.updateUser(id, userDetails);
     }
+
+    @PostMapping("/validate")
+    public User validateUser(@RequestBody LoginRequest loginRequest) {
+        return userService.getUserByUuid(loginRequest.getUuid())
+                .orElseThrow(() -> new RuntimeException("Invalid UUID"));
+    }
 }
