@@ -1,11 +1,16 @@
 package com.bucksbuddy.bucksbuddy.expenditure;
 
+import com.bucksbuddy.bucksbuddy.journey.Journey;
+
 import java.util.Date;
 
 public class ExpenditureDTO {
     private String name;
     private double amount;
     private Date date;
+    private int journeyId;
+
+
 
     // Getter und Setter
     public String getName() {
@@ -31,5 +36,14 @@ public class ExpenditureDTO {
     public void setDate(Date date) {
         this.date = date;
     }
+
+    public int getJourneyId() {
+        return journeyId;
+    }
+
+    public void setJourney(int journeyId) {
+        this.journeyId = journeyId;
+    }
+
 }
 

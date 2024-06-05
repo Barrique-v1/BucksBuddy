@@ -1,5 +1,6 @@
 package com.bucksbuddy.bucksbuddy.expenditure;
 
+import com.bucksbuddy.bucksbuddy.journey.Journey;
 import com.bucksbuddy.bucksbuddy.user.User;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
@@ -21,18 +22,18 @@ public class Expenditure {
     private Date date;
 
     @ManyToOne
-    @JoinColumn(name = "user_id", nullable = false)
+    @JoinColumn(name = "journey_id", nullable = false)
     @JsonBackReference
-    private User user;
+    private Journey journey;
 
     public Expenditure() {
     }
 
-    public Expenditure(String name, double amount, User user) {
+    public Expenditure(String name, double amount, Journey journey) {
         this.name = name;
         this.amount = amount;
         this.date = new Date();
-        this.user = user;
+        this.journey = journey;
     }
 
     public int getId() {
@@ -67,11 +68,11 @@ public class Expenditure {
         this.date = date;
     }
 
-    public User getUser() {
-        return user;
+    public Journey getJourney() {
+        return journey;
     }
 
-    public void setUser(User user) {
-        this.user = user;
+    public void setJourney(Journey journey) {
+        this.journey = journey;
     }
 }
