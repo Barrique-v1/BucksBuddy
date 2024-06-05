@@ -13,6 +13,16 @@ public class UserController {
     @Autowired
     private UserService userService;
 
+    @PostMapping("/login")
+    public boolean login(@RequestBody UserLoginRequest request) {
+        return userService.validateUser(request.getEmail(), request.getPassword());
+    }
+
+    @GetMapping("/uuid/{email}")
+    public Optional<User> getUuid(@PathVariable String email) {
+        return userService.getUserByUuid(email);
+    }
+
     @GetMapping
     public List<User> getAllUsers() {
         return userService.getAllUsers();
@@ -21,11 +31,6 @@ public class UserController {
     @GetMapping("/{id}")
     public Optional<User> getUserById(@PathVariable int id) {
         return userService.getUserById(id);
-    }
-
-    @GetMapping("/email/{email}/password/{password}")
-    public Optional<User> getUserByEmailAndPassword(@PathVariable String email, @PathVariable String password) {
-        return userService.getUserByEmailAndPassword(email, password);
     }
 
     @PostMapping
@@ -41,15 +46,5 @@ public class UserController {
     @PutMapping("/{id}")
     public User updateUser(@PathVariable int id, @RequestBody User userDetails) {
         return userService.updateUser(id, userDetails);
-    }
-
-    @GetMapping("/uuid/{uuid}")
-    public Optional<User> getUserByUuid(@PathVariable String uuid) {
-        return userService.getUserByUuid(uuid);
-    }
-
-    @PostMapping("/login")
-    public boolean login(@RequestBody UserLoginRequest request) {
-        return userService.validateUser(request.getEmail(), request.getPassword());
     }
 }
