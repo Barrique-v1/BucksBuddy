@@ -26,7 +26,6 @@ public class Expenditure {
     private User user;
 
     public Expenditure() {
-        this.date = new Date(); // Initialisiere das Datum mit dem aktuellen Datum
     }
 
     public Expenditure(String name, double amount, User user) {

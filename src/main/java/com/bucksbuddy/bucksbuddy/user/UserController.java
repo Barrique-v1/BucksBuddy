@@ -1,6 +1,7 @@
 package com.bucksbuddy.bucksbuddy.user;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -15,12 +16,19 @@ public class UserController {
 
     @PostMapping("/login")
     public boolean login(@RequestBody UserLoginRequest request) {
-        return userService.validateUser(request.getEmail(), request.getPassword());
+        return userService.loginUser(request.getEmail(), request.getPassword());
     }
 
-    @GetMapping("/uuid/{email}")
-    public Optional<User> getUuid(@PathVariable String email) {
-        return userService.getUserByUuid(email);
+    @GetMapping("/id/{email}")
+    public ResponseEntity<Integer> getUserIdByEmail(@PathVariable String email) {
+        Optional<Integer> userId = userService.getUserIdByEmail(email);
+        return userId.map(ResponseEntity::ok)
+                .orElse(ResponseEntity.notFound().build());
+    }
+
+    @GetMapping("/user/{email}")
+    public Optional<User> getUserByEmail(@PathVariable String email) {
+        return userService.getUserByEmail(email);
     }
 
     @GetMapping

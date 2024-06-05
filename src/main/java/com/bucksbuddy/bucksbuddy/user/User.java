@@ -20,21 +20,16 @@ public class User {
     @Column(nullable = false)
     private String password;
 
-    @Column(unique = true, nullable = false)
-    private String uuid;
-
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonManagedReference
     private Set<Expenditure> expenditures;
 
     public User() {
-        this.uuid = java.util.UUID.randomUUID().toString();
     }
 
     public User(String email, String password) {
         this.email = email;
         this.password = password;
-        this.uuid = java.util.UUID.randomUUID().toString();
     }
 
     public int getId() {
@@ -59,14 +54,6 @@ public class User {
 
     public void setPassword(String password) {
         this.password = password;
-    }
-
-    public String getUuid() {
-        return uuid;
-    }
-
-    public void setUuid(String uuid) {
-        this.uuid = uuid;
     }
 
     public Set<Expenditure> getExpenditures() {
