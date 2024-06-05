@@ -10,11 +10,10 @@ public class WebConfig implements WebMvcConfigurer {
 
     @Override
     public void addCorsMappings(CorsRegistry registry) {
-        registry.addMapping("/api/**")
+        registry.addMapping("/**")
                 // Erlaube Anfragen von mehreren Ursprüngen
                 .allowedOrigins(
-                        "http://localhost:5173",
-                        "https://bucksbuddyfrontend.onrender.com")
+                        "http://localhost:5173", "https://bucksbuddyfrontend.onrender.com")
                 .allowedMethods("GET", "POST", "PUT", "DELETE")
                 .allowedHeaders("*")
                 .allowCredentials(true);

@@ -42,4 +42,9 @@ public class UserService {
 
         return userRepository.save(user);
     }
+
+    public boolean validateUser(String email, String password) {
+        Optional<User> user = userRepository.findByEmailAndPassword(email, password);
+        return user.isPresent();
+    }
 }
