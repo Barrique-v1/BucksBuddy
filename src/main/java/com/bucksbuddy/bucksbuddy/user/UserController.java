@@ -43,8 +43,8 @@ public class UserController {
         return userService.getUserByUuid(uuid);
     }
 
-    @PostMapping("/validate")
-    public boolean validateUser(@RequestBody UserLoginRequest request) {
+    @PostMapping("/login")
+    public boolean login(@RequestBody UserLoginRequest request) {
         return userService.validateUser(request.getEmail(), request.getPassword());
     }
 }
