@@ -23,6 +23,11 @@ public class UserController {
         return userService.getUserById(id);
     }
 
+    @GetMapping("/email/{email}/password/{password}")
+    public Optional<User> getUserByEmailAndPassword(@PathVariable String email, @PathVariable String password) {
+        return userService.getUserByEmailAndPassword(email, password);
+    }
+
     @PostMapping
     public User createUser(@RequestBody User user) {
         return userService.saveUser(user);

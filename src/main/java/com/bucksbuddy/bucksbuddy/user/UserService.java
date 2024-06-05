@@ -47,4 +47,8 @@ public class UserService {
         Optional<User> user = userRepository.findByEmailAndPassword(email, password);
         return user.isPresent();
     }
+
+    public Optional<User> getUserByEmailAndPassword(String email, String password) {
+        return userRepository.findByEmailAndPassword(email, password);
+    }
 }
