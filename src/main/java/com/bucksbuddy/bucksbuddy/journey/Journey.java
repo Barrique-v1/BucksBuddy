@@ -31,7 +31,6 @@ public class Journey {
     @JsonManagedReference
     private Set<Expenditure> expenditures;
 
-
     public Journey() {
     }
 

@@ -6,6 +6,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Map;
 import java.util.Optional;
 
 @RestController
@@ -43,10 +44,10 @@ public class JourneyController {
         return isDeleted ? ResponseEntity.noContent().build() : ResponseEntity.notFound().build();
     }
 
-    // Update a journey by id
-    @PutMapping("/{id}")
-    public ResponseEntity<Journey> updateJourney(@PathVariable int id, @RequestBody Journey journey) {
-        Optional<Journey> updatedJourney = journeyService.updateJourney(id, journey);
+    // Update the name of a journey by id (using PATCH)
+    @PatchMapping("/{id}")
+    public ResponseEntity<Journey> updateJourneyName(@PathVariable int id, @RequestBody Map<String, String> updates) {
+        Optional<Journey> updatedJourney = journeyService.updateJourneyName(id, updates.get("name"));
         return updatedJourney.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
     }
 }

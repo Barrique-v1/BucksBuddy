@@ -39,10 +39,9 @@ public class JourneyService {
         return false;
     }
 
-    public Optional<Journey> updateJourney(int id, Journey updatedJourney) {
+    public Optional<Journey> updateJourneyName(int id, String name) {
         return journeyRepository.findById(id).map(journey -> {
-            journey.setName(updatedJourney.getName());
-            journey.setExpenditures(updatedJourney.getExpenditures());
+            journey.setName(name);
             return journeyRepository.save(journey);
         });
     }

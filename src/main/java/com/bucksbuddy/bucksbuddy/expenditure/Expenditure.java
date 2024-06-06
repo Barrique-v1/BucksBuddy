@@ -1,7 +1,6 @@
 package com.bucksbuddy.bucksbuddy.expenditure;
 
 import com.bucksbuddy.bucksbuddy.journey.Journey;
-import com.bucksbuddy.bucksbuddy.user.User;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 
@@ -36,6 +35,7 @@ public class Expenditure {
         this.journey = journey;
     }
 
+    // Getter und Setter
     public int getId() {
         return id;
     }
