@@ -4,8 +4,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Optional;
-
 @RestController
 @RequestMapping("/users/journeys/expenditures")
 public class ExpenditureController {
@@ -15,7 +13,7 @@ public class ExpenditureController {
 
     @GetMapping
     public ResponseEntity<Iterable<Expenditure>> getAllExpenditures(@RequestParam("JourneyID") int journeyId) {
-        Iterable<Expenditure> expenditures = expenditureRepository.findByJourneyId(journeyId);
+        Iterable<Expenditure> expenditures = expenditureRepository.findAllByJourneyId(journeyId);
         return ResponseEntity.ok(expenditures);
     }
 

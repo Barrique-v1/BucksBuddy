@@ -9,6 +9,6 @@ import java.util.Optional;
 
 @Repository
 public interface JourneyRepository extends CrudRepository<Journey, Integer>{
-    List<Journey> findByUserId(int userId);
+    List<Journey> findAllByUserUuid(String uuid);
     Optional<Journey> findById(int id);
 }

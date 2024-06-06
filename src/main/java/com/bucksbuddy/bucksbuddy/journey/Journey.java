@@ -6,7 +6,6 @@ import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 
-import java.util.HashSet;
 import java.util.Set;
 
 @Entity
@@ -17,7 +16,7 @@ public class Journey {
     private int id;
 
     @Column(nullable = false)
-    private String destination;
+    private String name;
 
     // später hinzufügen wenn's läuft
     //    private String homeCurrency;
@@ -36,8 +35,8 @@ public class Journey {
     public Journey() {
     }
 
-    public Journey(String destination, User user, Set<Expenditure> expenditures) {
-        this.destination = destination;
+    public Journey(String name, User user, Set<Expenditure> expenditures) {
+        this.name = name;
         this.user = user;
         this.expenditures = expenditures;
     }
@@ -50,12 +49,12 @@ public class Journey {
         this.id = id;
     }
 
-    public String getDestination() {
-        return destination;
+    public String getName() {
+        return name;
     }
 
-    public void setDestination(String destination) {
-        this.destination = destination;
+    public void setName(String destination) {
+        this.name = destination;
     }
 
     public User getUser() {
