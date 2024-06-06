@@ -1,11 +1,8 @@
 package com.bucksbuddy.bucksbuddy.user;
 
-import com.bucksbuddy.bucksbuddy.expenditure.Expenditure;
 import com.bucksbuddy.bucksbuddy.journey.Journey;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 
-import java.util.HashSet;
 import java.util.Set;
 
 @Entity
@@ -22,15 +19,20 @@ public class User {
     @Column(nullable = false)
     private String password;
 
+    @Column(nullable = false)
+    private String uuid;
+
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
-    private Set<Journey> journeys = new HashSet<>();
+    private Set<Journey> journeys;
 
     public User() {
+        this.uuid = java.util.UUID.randomUUID().toString();
     }
 
     public User(String email, String password) {
         this.email = email;
         this.password = password;
+        this.uuid = java.util.UUID.randomUUID().toString();
     }
 
     public int getId() {
@@ -55,6 +57,14 @@ public class User {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public String getUuid() {
+        return uuid;
+    }
+
+    public void setUuid(String uuid) {
+        this.uuid = uuid;
     }
 
     public Set<Journey> getJourney() {

@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("/api")
+@RequestMapping("/")
 public class JourneyController {
 
     @Autowired
@@ -18,6 +18,14 @@ public class JourneyController {
 
     @Autowired
     UserRepository userRepository;
+
+
+    // Get all journeys by user uuid
+    @GetMapping("/journeys")
+    public ResponseEntity<Iterable<Journey>> getAllJourneys(@RequestHeader("uuid") String uuid) {
+        Iterable<Journey> journeys = journeyRepository.findAllJourneys(uuid);
+        return new ResponseEntity<>(journeys, HttpStatus.OK);
+    }
 
     // Get journey by id
     @GetMapping("/journey")
@@ -27,13 +35,6 @@ public class JourneyController {
             return new ResponseEntity("No journey found with id " + id, HttpStatus.NOT_FOUND);
         }
         return new ResponseEntity<>(journeyInDB.get(), HttpStatus.OK);
-    }
-
-    // Get all journeys
-    @GetMapping("/journeys")
-    public ResponseEntity<Iterable<Journey>> getJourneys() {
-        Iterable<Journey> journeys = journeyRepository.findAll();
-        return new ResponseEntity<>(journeys, HttpStatus.OK);
     }
 
     // Create journey for a specific user

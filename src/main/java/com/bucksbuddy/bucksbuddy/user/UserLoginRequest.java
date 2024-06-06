@@ -4,7 +4,6 @@ public class UserLoginRequest {
     private String email;
     private String password;
 
-    // Getter und Setter
     public String getEmail() {
         return email;
     }

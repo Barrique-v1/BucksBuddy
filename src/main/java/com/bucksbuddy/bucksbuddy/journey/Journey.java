@@ -30,7 +30,7 @@ public class Journey {
 
     @OneToMany(mappedBy = "journey", cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonManagedReference
-    private Set<Expenditure> expenditures = new HashSet<>();
+    private Set<Expenditure> expenditures;
 
 
     public Journey() {
