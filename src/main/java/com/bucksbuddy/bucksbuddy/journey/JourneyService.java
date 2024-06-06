@@ -45,4 +45,8 @@ public class JourneyService {
             return journeyRepository.save(journey);
         });
     }
+
+    public Optional<String> getJourneyCurrency(int id) {
+        return journeyRepository.findById(id).map(Journey::getCurr);
+    }
 }

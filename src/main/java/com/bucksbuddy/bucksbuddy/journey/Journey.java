@@ -6,6 +6,7 @@ import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 
+import java.util.Currency;
 import java.util.Set;
 
 @Entity
@@ -18,9 +19,10 @@ public class Journey {
     @Column(nullable = false)
     private String name;
 
-    // später hinzufügen wenn's läuft
-    //    private String homeCurrency;
-    //    private String foreignCurrency;
+
+
+    @Column(nullable = false)
+    private String curr;
 
     @ManyToOne
     @JoinColumn(name = "user_id" , nullable = false)
@@ -34,10 +36,11 @@ public class Journey {
     public Journey() {
     }
 
-    public Journey(String name, User user, Set<Expenditure> expenditures) {
+    public Journey(String name, User user, Set<Expenditure> expenditures, String curr) {
         this.name = name;
         this.user = user;
         this.expenditures = expenditures;
+        this.curr = curr;
     }
 
     public int getId() {
@@ -70,5 +73,15 @@ public class Journey {
 
     public void setExpenditures(Set<Expenditure> expenditures) {
         this.expenditures = expenditures;
+
+
+    }
+
+    public String getCurr() {
+        return curr;
+    }
+
+    public void setCurr(String curr) {
+        this.curr = curr;
     }
 }

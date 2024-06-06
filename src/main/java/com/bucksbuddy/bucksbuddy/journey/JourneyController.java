@@ -50,4 +50,10 @@ public class JourneyController {
         Optional<Journey> updatedJourney = journeyService.updateJourneyName(id, updates.get("name"));
         return updatedJourney.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
     }
+
+    @PatchMapping("/{id}")
+    public ResponseEntity<String> getJourneyCurrency(@PathVariable int id) {
+        Optional<String> currency = journeyService.getJourneyCurrency(id);
+        return currency.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
+    }
 }
