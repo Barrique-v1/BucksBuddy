@@ -1,5 +1,6 @@
 package com.bucksbuddy.bucksbuddy.journey;
 
+import com.bucksbuddy.bucksbuddy.expenditure.Expenditure;
 import com.bucksbuddy.bucksbuddy.user.User;
 import com.bucksbuddy.bucksbuddy.user.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -7,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 @Service
 public class JourneyService {
@@ -46,7 +48,55 @@ public class JourneyService {
         });
     }
 
-    public Optional<String> getJourneyCurrency(int id) {
-        return journeyRepository.findById(id).map(Journey::getCurr);
+    public Optional<String> getHomeCurrency(int id) {
+        return journeyRepository.findById(id).map(Journey::getVacCurr);
+    }
+
+    public Optional<Integer> getJourneyBudget(int id) {
+        return journeyRepository.findById(id).map(Journey::getBudget);
+    }
+
+    public Optional<String> getVacCurr(int id) {
+        return journeyRepository.findById(id).map(Journey::getHomeCurr);
+    }
+
+    public Optional<String> getStartDate(int id) {
+        return journeyRepository.findById(id).map(Journey::getStartDate);
+    }
+
+    public Optional<String> getEndDate(int id) {
+        return journeyRepository.findById(id).map(Journey::getEndDate);
+    }
+
+    public Optional<Set<Expenditure>> getExpenditures(int id) {
+        return journeyRepository.findById(id).map(Journey::getExpenditures);
+    }
+
+    public Optional<Journey> updateJourneyCurrency(int id, String currency) {
+        return journeyRepository.findById(id).map(journey -> {
+            journey.setCurr(currency);
+            return journeyRepository.save(journey);
+        });
+    }
+
+    public Optional<Journey> updateJourneyBudget(int id, int budget) {
+        return journeyRepository.findById(id).map(journey -> {
+            journey.setBudget(budget);
+            return journeyRepository.save(journey);
+        });
+    }
+
+    public Optional<Journey> updateVacCurr(int id, String vacCurr) {
+        return journeyRepository.findById(id).map(journey -> {
+            journey.setVacCurr(vacCurr);
+            return journeyRepository.save(journey);
+        });
+    }
+
+    public Optional <Set<Expenditure>> setExpenditures(int id, Set<Expenditure> expenditures) {
+        return journeyRepository.findById(id).map(journey -> {
+            journey.setExpenditures(expenditures);
+            return journeyRepository.save(journey).getExpenditures();
+        });
     }
 }

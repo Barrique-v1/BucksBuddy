@@ -7,6 +7,7 @@ import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 
 import java.util.Currency;
+import java.util.Date;
 import java.util.Set;
 
 @Entity
@@ -20,9 +21,21 @@ public class Journey {
     private String name;
 
 
+    @Column(nullable = false)
+    private String HomeCurr;
 
     @Column(nullable = false)
-    private String curr;
+    private String VacCurr;
+
+
+    @Column(nullable = false)
+    private int Budget;
+
+    @Column(nullable = false)
+    private Date StartDate;
+
+    @Column(nullable = false)
+    private Date EndDate;
 
     @ManyToOne
     @JoinColumn(name = "user_id" , nullable = false)
@@ -36,11 +49,15 @@ public class Journey {
     public Journey() {
     }
 
-    public Journey(String name, User user, Set<Expenditure> expenditures, String curr) {
+    public Journey(String name, User user, Set<Expenditure> expenditures, String HomeCurr, String VacCurr, int Budget, Date StartDate, Date EndDate) {
         this.name = name;
         this.user = user;
         this.expenditures = expenditures;
-        this.curr = curr;
+        this.HomeCurr = HomeCurr;
+        this.VacCurr = VacCurr;
+        this.Budget = Budget;
+        this.StartDate = StartDate;
+        this.EndDate = EndDate;
     }
 
     public int getId() {
@@ -78,10 +95,50 @@ public class Journey {
     }
 
     public String getCurr() {
-        return curr;
+        return HomeCurr;
     }
 
-    public void setCurr(String curr) {
-        this.curr = curr;
+    public void setCurr(String HomeCurr) {
+        this.HomeCurr = HomeCurr;
+    }
+
+    public String getHomeCurr() {
+        return HomeCurr;
+    }
+
+    public void setHomeCurr(String homeCurr) {
+        HomeCurr = homeCurr;
+    }
+
+    public String getVacCurr() {
+        return VacCurr;
+    }
+
+    public void setVacCurr(String vacCurr) {
+        VacCurr = vacCurr;
+    }
+
+    public int getBudget() {
+        return Budget;
+    }
+
+    public void setBudget(int budget) {
+        Budget = budget;
+    }
+
+    public String getStartDate() {
+        return StartDate.toString();
+    }
+
+    public void setStartDate(Date startDate) {
+        StartDate = startDate;
+    }
+
+    public String getEndDate() {
+        return EndDate.toString();
+    }
+
+    public void setEndDate(Date endDate) {
+        EndDate = endDate;
     }
 }
