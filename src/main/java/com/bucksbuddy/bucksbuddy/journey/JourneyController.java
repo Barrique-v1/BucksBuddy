@@ -52,22 +52,22 @@ public class JourneyController {
         return updatedJourney.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
     }
 
-    @PatchMapping("/{id}/currency")
-    public ResponseEntity<String> getJourneyCurrency(@PathVariable int id) {
+    @PatchMapping("/{id}/homeCurrency")
+    public ResponseEntity<String> getHomeCurrency(@PathVariable int id) {
         Optional<String> currency = journeyService.getHomeCurrency(id);
         return currency.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
+    }
+
+    @PatchMapping("/{id}/vacCurrency")
+    public ResponseEntity<String> getVacCurr(@PathVariable int id) {
+        Optional<String> vacCurr = journeyService.getVacCurr(id);
+        return vacCurr.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
     }
 
     @PatchMapping("/{id}/budget")
     public ResponseEntity<Integer> getJourneyBudget(@PathVariable int id) {
         Optional<Integer> budget = journeyService.getJourneyBudget(id);
         return budget.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
-    }
-
-    @PatchMapping("/{id}/vacCurr")
-    public ResponseEntity<String> getVacCurr(@PathVariable int id) {
-        Optional<String> vacCurr = journeyService.getVacCurr(id);
-        return vacCurr.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
     }
 
     @PatchMapping("/{id}/startDate")
@@ -80,18 +80,6 @@ public class JourneyController {
     public ResponseEntity<String> getEndDate(@PathVariable int id) {
         Optional<String> endDate = journeyService.getEndDate(id);
         return endDate.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
-    }
-
-    @PatchMapping("/{id}/expenditures")
-    public ResponseEntity<Optional<Set<Expenditure>>> getExpenditures(@PathVariable int id) {
-        Optional<Set<Expenditure>> expenditures = journeyService.getExpenditures(id);
-        return ResponseEntity.ok(expenditures);
-    }
-
-    @PatchMapping("/{id}/expenditures")
-    public ResponseEntity<Optional<Set<Expenditure>>> setExpenditures(@PathVariable int id, Set<Expenditure> expenditures) {
-        Optional<Set<Expenditure>> expenditure = journeyService.setExpenditures(id, expenditures);
-        return ResponseEntity.ok(expenditure);
     }
 
 }

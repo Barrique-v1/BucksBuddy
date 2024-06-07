@@ -49,10 +49,9 @@ public class Journey {
     public Journey() {
     }
 
-    public Journey(String name, User user, Set<Expenditure> expenditures, String HomeCurr, String VacCurr, int Budget, Date StartDate, Date EndDate) {
+    public Journey(String name, User user, String HomeCurr, String VacCurr, int Budget, Date StartDate, Date EndDate) {
         this.name = name;
         this.user = user;
-        this.expenditures = expenditures;
         this.HomeCurr = HomeCurr;
         this.VacCurr = VacCurr;
         this.Budget = Budget;
@@ -82,16 +81,6 @@ public class Journey {
 
     public void setUser(User user) {
         this.user = user;
-    }
-
-    public Set<Expenditure> getExpenditures() {
-        return expenditures;
-    }
-
-    public void setExpenditures(Set<Expenditure> expenditures) {
-        this.expenditures = expenditures;
-
-
     }
 
     public String getCurr() {

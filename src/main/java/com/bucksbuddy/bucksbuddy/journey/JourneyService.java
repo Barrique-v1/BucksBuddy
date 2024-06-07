@@ -68,10 +68,6 @@ public class JourneyService {
         return journeyRepository.findById(id).map(Journey::getEndDate);
     }
 
-    public Optional<Set<Expenditure>> getExpenditures(int id) {
-        return journeyRepository.findById(id).map(Journey::getExpenditures);
-    }
-
     public Optional<Journey> updateJourneyCurrency(int id, String currency) {
         return journeyRepository.findById(id).map(journey -> {
             journey.setCurr(currency);
@@ -90,13 +86,6 @@ public class JourneyService {
         return journeyRepository.findById(id).map(journey -> {
             journey.setVacCurr(vacCurr);
             return journeyRepository.save(journey);
-        });
-    }
-
-    public Optional <Set<Expenditure>> setExpenditures(int id, Set<Expenditure> expenditures) {
-        return journeyRepository.findById(id).map(journey -> {
-            journey.setExpenditures(expenditures);
-            return journeyRepository.save(journey).getExpenditures();
         });
     }
 }
