@@ -64,31 +64,31 @@ public class JourneyController {
         return updatedJourney.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
     }
 
-    @PatchMapping("/{id}/homeCurrency")
+    @GetMapping("/{id}/homeCurrency")
     public ResponseEntity<String> getHomeCurrency(@PathVariable int id) {
         Optional<String> currency = journeyService.getHomeCurrency(id);
         return currency.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
     }
 
-    @PatchMapping("/{id}/vacCurrency")
+    @GetMapping("/{id}/vacCurrency")
     public ResponseEntity<String> getVacCurr(@PathVariable int id) {
         Optional<String> vacCurr = journeyService.getVacCurr(id);
         return vacCurr.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
     }
 
-    @PatchMapping("/{id}/budget")
+    @GetMapping("/{id}/budget")
     public ResponseEntity<Integer> getJourneyBudget(@PathVariable int id) {
         Optional<Integer> budget = journeyService.getJourneyBudget(id);
         return budget.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
     }
 
-    @PatchMapping("/{id}/startDate")
+    @GetMapping("/{id}/startDate")
     public ResponseEntity<String> getStartDate(@PathVariable int id) {
         Optional<String> startDate = journeyService.getStartDate(id);
         return startDate.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
     }
 
-    @PatchMapping("/{id}/endDate")
+    @GetMapping("/{id}/endDate")
     public ResponseEntity<String> getEndDate(@PathVariable int id) {
         Optional<String> endDate = journeyService.getEndDate(id);
         return endDate.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());

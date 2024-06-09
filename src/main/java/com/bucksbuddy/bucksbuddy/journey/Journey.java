@@ -40,7 +40,7 @@ public class Journey {
     private Date endDate;
 
     @ManyToOne
-    @JoinColumn(name = "user_id" , nullable = false)
+    @JoinColumn(name = "user_uuid", referencedColumnName = "uuid", nullable = false)
     @JsonBackReference
     private User user;
 
