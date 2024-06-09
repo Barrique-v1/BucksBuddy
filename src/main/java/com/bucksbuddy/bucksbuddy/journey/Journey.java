@@ -22,20 +22,22 @@ public class Journey {
 
 
     @Column(nullable = false)
-    private String HomeCurr;
+    private String homeCurr;
 
     @Column(nullable = false)
-    private String VacCurr;
+    private String vacCurr;
 
 
     @Column(nullable = false)
-    private int Budget;
+    private int budget;
 
+    @Temporal(TemporalType.DATE)
     @Column(nullable = false)
-    private Date StartDate;
+    private Date startDate;
 
+    @Temporal(TemporalType.DATE)
     @Column(nullable = false)
-    private Date EndDate;
+    private Date endDate;
 
     @ManyToOne
     @JoinColumn(name = "user_id" , nullable = false)
@@ -52,11 +54,11 @@ public class Journey {
     public Journey(String name, User user, String HomeCurr, String VacCurr, int Budget, Date StartDate, Date EndDate) {
         this.name = name;
         this.user = user;
-        this.HomeCurr = HomeCurr;
-        this.VacCurr = VacCurr;
-        this.Budget = Budget;
-        this.StartDate = StartDate;
-        this.EndDate = EndDate;
+        this.homeCurr = HomeCurr;
+        this.vacCurr = VacCurr;
+        this.budget = Budget;
+        this.startDate = StartDate;
+        this.endDate = EndDate;
     }
 
     public int getId() {
@@ -83,51 +85,43 @@ public class Journey {
         this.user = user;
     }
 
-    public String getCurr() {
-        return HomeCurr;
-    }
-
-    public void setCurr(String HomeCurr) {
-        this.HomeCurr = HomeCurr;
-    }
-
     public String getHomeCurr() {
-        return HomeCurr;
+        return homeCurr;
     }
 
     public void setHomeCurr(String homeCurr) {
-        HomeCurr = homeCurr;
+        this.homeCurr = homeCurr;
     }
 
     public String getVacCurr() {
-        return VacCurr;
+        return vacCurr;
     }
 
     public void setVacCurr(String vacCurr) {
-        VacCurr = vacCurr;
+        this.vacCurr = vacCurr;
     }
 
     public int getBudget() {
-        return Budget;
+        return budget;
     }
 
     public void setBudget(int budget) {
-        Budget = budget;
+        this.budget = budget;
     }
 
     public String getStartDate() {
-        return StartDate.toString();
+        return startDate.toString();
     }
 
     public void setStartDate(Date startDate) {
-        StartDate = startDate;
+        this.startDate = startDate;
     }
 
     public String getEndDate() {
-        return EndDate.toString();
+        return endDate.toString();
     }
 
     public void setEndDate(Date endDate) {
-        EndDate = endDate;
+        this.endDate = endDate;
     }
 }

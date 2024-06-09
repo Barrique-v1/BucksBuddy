@@ -5,10 +5,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import com.bucksbuddy.bucksbuddy.user.*;
 
 import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
+
+
 
 @RestController
 @RequestMapping("/users/journeys")
@@ -16,6 +19,9 @@ public class JourneyController {
 
     @Autowired
     JourneyService journeyService;
+
+    @Autowired
+    private UserService userService;
 
     // Get all journeys by user uuid
     @GetMapping
@@ -34,8 +40,14 @@ public class JourneyController {
     // Create a new journey
     @PostMapping
     public ResponseEntity<Journey> createJourney(@RequestHeader("uuid") String uuid, @RequestBody Journey journey) {
-        Journey createdJourney = journeyService.createJourney(uuid, journey);
-        return new ResponseEntity<>(createdJourney, HttpStatus.CREATED);
+        Optional<User> userOptional = userService.getUserByUuid(uuid);
+        if (userOptional.isPresent()) {
+            journey.setUser(userOptional.get());
+            Journey createdJourney = journeyService.createJourney(uuid, journey);
+            return new ResponseEntity<>(createdJourney, HttpStatus.CREATED);
+        } else {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
     }
 
     // Delete a journey by id

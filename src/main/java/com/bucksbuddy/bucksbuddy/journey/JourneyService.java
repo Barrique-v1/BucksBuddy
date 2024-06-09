@@ -70,7 +70,7 @@ public class JourneyService {
 
     public Optional<Journey> updateJourneyCurrency(int id, String currency) {
         return journeyRepository.findById(id).map(journey -> {
-            journey.setCurr(currency);
+            journey.setHomeCurr(currency);
             return journeyRepository.save(journey);
         });
     }
