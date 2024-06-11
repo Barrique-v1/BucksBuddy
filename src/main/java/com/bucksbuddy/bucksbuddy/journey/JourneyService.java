@@ -20,9 +20,11 @@ public class JourneyService {
     private UserRepository userRepository;
 
     public List<Journey> getAllJourneys(String uuid) {
-        return journeyRepository.findAllByUserUuid(uuid);
+        System.out.println("Fetching journeys for UUID: " + uuid); // Debugging-Informationen hinzufügen
+        List<Journey> journeys = journeyRepository.findAllByUser_Uuid(uuid);
+        System.out.println("Journeys found: " + journeys.size()); // Debugging-Informationen hinzufügen
+        return journeys;
     }
-
     public Optional<Journey> getJourneyById(int id) {
         return journeyRepository.findById(id);
     }
