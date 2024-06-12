@@ -5,6 +5,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Map;
 import java.util.Optional;
 
 @RestController
@@ -33,7 +34,6 @@ public class UserController {
         }
     }
 
-    // Implement the delete user endpoint
     @DeleteMapping
     public ResponseEntity<Void> deleteUser(@RequestHeader String uuid) {
         Optional<User> userOpt = userService.getUserByUuid(uuid);
@@ -44,17 +44,9 @@ public class UserController {
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
-    // Implement the update user's email endpoint
-    @PatchMapping("/email")
-    public ResponseEntity<User> updateUserEmail(@RequestHeader String uuid, @RequestBody String newEmail) {
-        Optional<User> updatedUser = userService.updateUserEmail(uuid, newEmail);
-        return updatedUser.map(user -> new ResponseEntity<>(user, HttpStatus.OK))
-                .orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
-    }
-
-    // Implement the update user's password endpoint
     @PatchMapping("/password")
-    public ResponseEntity<User> updateUserPassword(@RequestHeader String uuid, @RequestBody String newPassword) {
+    public ResponseEntity<User> updateUserPassword(@RequestHeader String uuid, @RequestBody Map<String, String> payload) {
+        String newPassword = payload.get("newPassword");
         Optional<User> updatedUser = userService.updateUserPassword(uuid, newPassword);
         return updatedUser.map(user -> new ResponseEntity<>(user, HttpStatus.OK))
                 .orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));

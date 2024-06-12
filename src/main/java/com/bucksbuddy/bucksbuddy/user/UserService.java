@@ -32,19 +32,6 @@ public class UserService {
         getUserByUuid(uuid).ifPresent(user -> userRepository.delete(user));
     }
 
-    // Implement the update user's email method
-    public Optional<User> updateUserEmail(String uuid, String newEmail) {
-        Optional<User> userOpt = getUserByUuid(uuid);
-        if (userOpt.isPresent()) {
-            User user = userOpt.get();
-            user.setEmail(newEmail);
-            userRepository.save(user);
-            return Optional.of(user);
-        }
-        return Optional.empty();
-    }
-
-    // Implement the update user's password method
     public Optional<User> updateUserPassword(String uuid, String newPassword) {
         Optional<User> userOpt = getUserByUuid(uuid);
         if (userOpt.isPresent()) {
