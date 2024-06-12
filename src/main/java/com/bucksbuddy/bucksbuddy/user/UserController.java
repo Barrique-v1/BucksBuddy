@@ -33,8 +33,30 @@ public class UserController {
         }
     }
 
+    // Implement the delete user endpoint
+    @DeleteMapping
+    public ResponseEntity<Void> deleteUser(@RequestHeader String uuid) {
+        Optional<User> userOpt = userService.getUserByUuid(uuid);
+        if (userOpt.isPresent()) {
+            userService.deleteUser(uuid);
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        }
+        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+    }
 
+    // Implement the update user's email endpoint
+    @PatchMapping("/email")
+    public ResponseEntity<User> updateUserEmail(@RequestHeader String uuid, @RequestBody String newEmail) {
+        Optional<User> updatedUser = userService.updateUserEmail(uuid, newEmail);
+        return updatedUser.map(user -> new ResponseEntity<>(user, HttpStatus.OK))
+                .orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
+    }
 
-    //TODO: Implement the delete user endpoint
-    //TODO: Implement the update user endpoint
+    // Implement the update user's password endpoint
+    @PatchMapping("/password")
+    public ResponseEntity<User> updateUserPassword(@RequestHeader String uuid, @RequestBody String newPassword) {
+        Optional<User> updatedUser = userService.updateUserPassword(uuid, newPassword);
+        return updatedUser.map(user -> new ResponseEntity<>(user, HttpStatus.OK))
+                .orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
+    }
 }

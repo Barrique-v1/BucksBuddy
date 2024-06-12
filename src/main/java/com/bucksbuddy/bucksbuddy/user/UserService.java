@@ -27,4 +27,32 @@ public class UserService {
     public Optional<User> getUserByUuid(String uuid) {
         return userRepository.findByUuid(uuid);
     }
+
+    public void deleteUser(String uuid) {
+        getUserByUuid(uuid).ifPresent(user -> userRepository.delete(user));
+    }
+
+    // Implement the update user's email method
+    public Optional<User> updateUserEmail(String uuid, String newEmail) {
+        Optional<User> userOpt = getUserByUuid(uuid);
+        if (userOpt.isPresent()) {
+            User user = userOpt.get();
+            user.setEmail(newEmail);
+            userRepository.save(user);
+            return Optional.of(user);
+        }
+        return Optional.empty();
+    }
+
+    // Implement the update user's password method
+    public Optional<User> updateUserPassword(String uuid, String newPassword) {
+        Optional<User> userOpt = getUserByUuid(uuid);
+        if (userOpt.isPresent()) {
+            User user = userOpt.get();
+            user.setPassword(newPassword);
+            userRepository.save(user);
+            return Optional.of(user);
+        }
+        return Optional.empty();
+    }
 }
