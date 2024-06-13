@@ -3,6 +3,7 @@ package com.bucksbuddy.bucksbuddy.user;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Map;
@@ -16,10 +17,16 @@ public class UserController {
     @Autowired
     private UserService userService;
 
+    @Autowired
+    private PasswordEncoder passwordEncoder;
+
+
     @PostMapping("/login")
     public ResponseEntity<String> login(@RequestBody UserLoginRequest request) {
         Optional<User> validUser = userService.getUserByEmail(request.getEmail());
-        if (validUser.isPresent() && userService.validate(request.getEmail(), request.getPassword())) {
+        String enteredPassword = request.getPassword();
+        String storedPassword = validUser.map(User::getPassword).orElse("");
+        if (validUser.isPresent() && passwordEncoder.matches(enteredPassword, storedPassword)) {
             return new ResponseEntity<>("UUID: " + validUser.get().getUuid(), HttpStatus.OK);
         }
         return new ResponseEntity<>("Invalid credentials", HttpStatus.NOT_FOUND);
@@ -27,6 +34,7 @@ public class UserController {
 
     @PostMapping
     public ResponseEntity<User> createUser(@RequestBody User user) {
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
         try {
             User savedUser = userService.saveUser(user);
             return new ResponseEntity<>(savedUser, HttpStatus.CREATED);
