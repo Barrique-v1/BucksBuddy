@@ -17,13 +17,16 @@ public class UserController {
     @Autowired
     private UserService userService;
 
-   private PasswordEncoder passwordEncoder;
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
 
     @PostMapping("/login")
     public ResponseEntity<String> login(@RequestBody UserLoginRequest request) {
         Optional<User> validUser = userService.getUserByEmail(request.getEmail());
-        if (validUser.isPresent() && userService.validate(request.getEmail(), request.getPassword())) {
+        String enteredPassword = request.getPassword();
+        String storedPassword = validUser.map(User::getPassword).orElse("");
+        if (validUser.isPresent() && passwordEncoder.matches(enteredPassword, storedPassword)) {
             return new ResponseEntity<>("UUID: " + validUser.get().getUuid(), HttpStatus.OK);
         }
         return new ResponseEntity<>("Invalid credentials", HttpStatus.NOT_FOUND);
