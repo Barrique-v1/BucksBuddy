@@ -55,7 +55,7 @@ public class UserController {
 
     @PatchMapping("/password")
     public ResponseEntity<User> updateUserPassword(@RequestHeader String uuid, @RequestBody Map<String, String> payload) {
-        String newPassword = payload.get("newPassword");
+        String newPassword = passwordEncoder.encode(payload.get("newPassword"));
         if (newPassword == null || newPassword.isEmpty()) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
