@@ -26,6 +26,7 @@ dependencies {
 
     // spring security
     implementation 'org.springframework.boot:spring-boot-starter-security'
+    implementation('org.springframework.security:spring-security-crypto')
     //for .env
     implementation 'io.github.cdimascio:java-dotenv:5.2.2'
 }
