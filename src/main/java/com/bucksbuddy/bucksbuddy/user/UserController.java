@@ -54,14 +54,20 @@ public class UserController {
     }
 
     @PatchMapping("/password")
-    public ResponseEntity<User> updateUserPassword(@RequestHeader String uuid, @RequestBody Map<String, String> payload) {
-        String newPassword = passwordEncoder.encode(payload.get("newPassword"));
+    public ResponseEntity<Void> updateUserPassword(@RequestHeader String uuid, @RequestBody Map<String, String> payload) {
+        String newPassword = payload.get("newPassword");
         if (newPassword == null || newPassword.isEmpty()) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
-        Optional<User> updatedUser = userService.updateUserPassword(uuid, newPassword);
-        return updatedUser.map(user -> new ResponseEntity<>(user, HttpStatus.OK))
-                .orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
+
+        String encodedPassword = passwordEncoder.encode(newPassword);
+        Optional<User> updatedUser = userService.updateUserPassword(uuid, encodedPassword);
+
+        if (updatedUser.isPresent()) {
+            return new ResponseEntity<>(HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
     }
 
 }
