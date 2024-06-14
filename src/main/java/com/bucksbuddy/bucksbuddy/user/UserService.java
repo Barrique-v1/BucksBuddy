@@ -36,7 +36,7 @@ public class UserService {
         Optional<User> userOpt = getUserByUuid(uuid);
         if (userOpt.isPresent()) {
             User user = userOpt.get();
-            user.setPassword(newPassword);  // Erwägen Sie, das Passwort zu hashen
+            user.setPassword(newPassword);
             userRepository.save(user);
             return Optional.of(user);
         }

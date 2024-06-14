@@ -1,68 +1,82 @@
 package com.bucksbuddy.bucksbuddy;
 
-import com.bucksbuddy.bucksbuddy.user.User;
-import com.bucksbuddy.bucksbuddy.user.UserController;
-import com.bucksbuddy.bucksbuddy.user.UserLoginRequest;
-import com.bucksbuddy.bucksbuddy.user.UserService;
+import com.bucksbuddy.bucksbuddy.user.*;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
-import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
 
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
-@WebMvcTest(UserController.class)
 public class UserControllerTest {
 
-    @Autowired
     private MockMvc mockMvc;
 
-    @MockBean
+    @Mock
     private UserService userService;
 
-    @Autowired
+    @Mock
+    private PasswordEncoder passwordEncoder;
+
+    @InjectMocks
+    private UserController userController;
+
     private ObjectMapper objectMapper;
 
     @BeforeEach
-    void setUp() {
+    public void setUp() {
         MockitoAnnotations.initMocks(this);
+        this.mockMvc = MockMvcBuilders.standaloneSetup(userController).build();
+        this.objectMapper = new ObjectMapper();
     }
 
     @Test
     public void testLoginSuccess() throws Exception {
-        User user = new User("test@example.com", "password");
-        when(userService.getUserByEmail("test@example.com")).thenReturn(Optional.of(user));
-        when(userService.validate("test@example.com", "password")).thenReturn(true);
-
         UserLoginRequest request = new UserLoginRequest();
         request.setEmail("test@example.com");
         request.setPassword("password");
+
+        User user = new User();
+        user.setEmail("test@example.com");
+        user.setPassword("encodedPassword");
+        user.setUuid("test-uuid");
+
+        when(userService.getUserByEmail("test@example.com")).thenReturn(Optional.of(user));
+        when(passwordEncoder.matches("password", "encodedPassword")).thenReturn(true);
 
         mockMvc.perform(post("/users/login")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(request)))
                 .andExpect(status().isOk())
-                .andExpect(content().string("UUID: " + user.getUuid()));
+                .andExpect(content().string("UUID: test-uuid"));
     }
 
     @Test
     public void testLoginFailure() throws Exception {
-        when(userService.getUserByEmail("test@example.com")).thenReturn(Optional.empty());
-
         UserLoginRequest request = new UserLoginRequest();
         request.setEmail("test@example.com");
-        request.setPassword("password");
+        request.setPassword("wrongPassword");
+
+        User user = new User();
+        user.setEmail("test@example.com");
+        user.setPassword("encodedPassword");
+
+        when(userService.getUserByEmail("test@example.com")).thenReturn(Optional.of(user));
+        when(passwordEncoder.matches("wrongPassword", "encodedPassword")).thenReturn(false);
 
         mockMvc.perform(post("/users/login")
                         .contentType(MediaType.APPLICATION_JSON)
@@ -72,76 +86,83 @@ public class UserControllerTest {
     }
 
     @Test
-    public void testCreateUser() throws Exception {
-        User user = new User("test@example.com", "password");
-        when(userService.saveUser(any(User.class))).thenReturn(user);
+    public void testCreateUserSuccess() throws Exception {
+        User user = new User();
+        user.setEmail("new@example.com");
+        user.setPassword("newPassword");
+
+        User savedUser = new User();
+        savedUser.setEmail("new@example.com");
+        savedUser.setPassword("encodedPassword");
+
+        when(passwordEncoder.encode("newPassword")).thenReturn("encodedPassword");
+        when(userService.saveUser(any(User.class))).thenReturn(savedUser);
 
         mockMvc.perform(post("/users")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(user)))
                 .andExpect(status().isCreated())
-                .andExpect(jsonPath("$.email").value("test@example.com"));
+                .andExpect(jsonPath("$.email").value("new@example.com"))
+                .andExpect(jsonPath("$.password").value("encodedPassword"));
     }
 
     @Test
     public void testDeleteUserSuccess() throws Exception {
-        User user = new User("test@example.com", "password");
-        when(userService.getUserByUuid(anyString())).thenReturn(Optional.of(user));
+        User user = new User();
+        user.setUuid("test-uuid");
+
+        when(userService.getUserByUuid("test-uuid")).thenReturn(Optional.of(user));
 
         mockMvc.perform(delete("/users")
-                        .header("uuid", user.getUuid()))
+                        .header("uuid", "test-uuid"))
                 .andExpect(status().isNoContent());
 
-        verify(userService).deleteUser(user.getUuid());
+        verify(userService, times(1)).deleteUser("test-uuid");
     }
 
     @Test
     public void testDeleteUserNotFound() throws Exception {
-        when(userService.getUserByUuid(anyString())).thenReturn(Optional.empty());
+        when(userService.getUserByUuid("test-uuid")).thenReturn(Optional.empty());
 
         mockMvc.perform(delete("/users")
-                        .header("uuid", "invalid-uuid"))
+                        .header("uuid", "test-uuid"))
                 .andExpect(status().isNotFound());
     }
 
     @Test
     public void testUpdateUserPasswordSuccess() throws Exception {
-        User user = new User("test@example.com", "password");
-        when(userService.updateUserPassword(anyString(), anyString())).thenReturn(Optional.of(user));
+        User user = new User();
+        user.setUuid("test-uuid");
+        user.setPassword("oldPassword");
 
-        Map<String, String> payload = new HashMap<>();
-        payload.put("newPassword", "newPassword");
+        when(userService.getUserByUuid("test-uuid")).thenReturn(Optional.of(user));
+        when(passwordEncoder.encode("newPassword")).thenReturn("encodedNewPassword");
+        when(userService.updateUserPassword("test-uuid", "encodedNewPassword")).thenReturn(Optional.of(user));
 
         mockMvc.perform(patch("/users/password")
-                        .header("uuid", user.getUuid())
+                        .header("uuid", "test-uuid")
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(payload)))
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$.email").value("test@example.com"));
+                        .content(objectMapper.writeValueAsString(Map.of("newPassword", "newPassword"))))
+                .andExpect(status().isOk());
     }
 
     @Test
     public void testUpdateUserPasswordBadRequest() throws Exception {
-        Map<String, String> payload = new HashMap<>();
-
         mockMvc.perform(patch("/users/password")
-                        .header("uuid", "some-uuid")
+                        .header("uuid", "test-uuid")
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(payload)))
+                        .content(objectMapper.writeValueAsString(Map.of("newPassword", ""))))
                 .andExpect(status().isBadRequest());
     }
 
     @Test
     public void testUpdateUserPasswordNotFound() throws Exception {
-        when(userService.updateUserPassword(anyString(), anyString())).thenReturn(Optional.empty());
-
-        Map<String, String> payload = new HashMap<>();
-        payload.put("newPassword", "newPassword");
+        when(userService.updateUserPassword("test-uuid", "encodedNewPassword")).thenReturn(Optional.empty());
 
         mockMvc.perform(patch("/users/password")
-                        .header("uuid", "invalid-uuid")
+                        .header("uuid", "test-uuid")
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(payload)))
+                        .content(objectMapper.writeValueAsString(Map.of("newPassword", "newPassword"))))
                 .andExpect(status().isNotFound());
     }
 }
