@@ -51,7 +51,7 @@ public class JourneyService {
     }
 
     public Optional<String> getHomeCurrency(int id) {
-        return journeyRepository.findById(id).map(Journey::getVacCurr);
+        return journeyRepository.findById(id).map(Journey::getHomeCurr);
     }
 
     public Optional<Integer> getJourneyBudget(int id) {
@@ -59,7 +59,7 @@ public class JourneyService {
     }
 
     public Optional<String> getVacCurr(int id) {
-        return journeyRepository.findById(id).map(Journey::getHomeCurr);
+        return journeyRepository.findById(id).map(Journey::getVacCurr);
     }
 
     public Optional<String> getStartDate(int id) {
