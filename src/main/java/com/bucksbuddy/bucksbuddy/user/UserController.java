@@ -1,11 +1,15 @@
 package com.bucksbuddy.bucksbuddy.user;
 
+import com.bucksbuddy.bucksbuddy.user.exceptions.EmailAlreadyRegisteredException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
+import jakarta.validation.Valid;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
 
@@ -20,7 +24,6 @@ public class UserController {
     @Autowired
     private PasswordEncoder passwordEncoder;
 
-
     @PostMapping("/login")
     public ResponseEntity<String> login(@RequestBody UserLoginRequest request) {
         Optional<User> validUser = userService.getUserByEmail(request.getEmail());
@@ -33,11 +36,20 @@ public class UserController {
     }
 
     @PostMapping
-    public ResponseEntity<User> createUser(@RequestBody User user) {
+    public ResponseEntity<?> createUser(@Valid @RequestBody User user, BindingResult bindingResult) {
+        if (bindingResult.hasErrors()) {
+            Map<String, String> errors = new HashMap<>();
+            bindingResult.getFieldErrors().forEach(error ->
+                    errors.put(error.getField(), error.getDefaultMessage()));
+            return new ResponseEntity<>(errors, HttpStatus.BAD_REQUEST);
+        }
+
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         try {
             User savedUser = userService.saveUser(user);
             return new ResponseEntity<>(savedUser, HttpStatus.CREATED);
+        } catch (EmailAlreadyRegisteredException e) {
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.CONFLICT);
         } catch (Exception e) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
@@ -54,12 +66,15 @@ public class UserController {
     }
 
     @PatchMapping("/password")
-    public ResponseEntity<Void> updateUserPassword(@RequestHeader String uuid, @RequestBody Map<String, String> payload) {
-        String newPassword = payload.get("newPassword");
-        if (newPassword == null || newPassword.isEmpty()) {
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+    public ResponseEntity<?> updateUserPassword(@RequestHeader String uuid, @Valid @RequestBody PasswordUpdateRequest payload, BindingResult bindingResult) {
+        if (bindingResult.hasErrors()) {
+            Map<String, String> errors = new HashMap<>();
+            bindingResult.getFieldErrors().forEach(error ->
+                    errors.put(error.getField(), error.getDefaultMessage()));
+            return new ResponseEntity<>(errors, HttpStatus.BAD_REQUEST);
         }
 
+        String newPassword = payload.getNewPassword();
         String encodedPassword = passwordEncoder.encode(newPassword);
         Optional<User> updatedUser = userService.updateUserPassword(uuid, encodedPassword);
 
@@ -69,5 +84,4 @@ public class UserController {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
     }
-
 }

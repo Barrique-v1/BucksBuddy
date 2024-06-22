@@ -7,9 +7,7 @@ import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
@@ -87,15 +85,10 @@ public class UserControllerTest {
 
     @Test
     public void testCreateUserSuccess() throws Exception {
-        User user = new User();
-        user.setEmail("new@example.com");
-        user.setPassword("newPassword");
+        User user = new User("new@example.com", "NewPassword1");
+        User savedUser = new User("new@example.com", "encodedPassword");
 
-        User savedUser = new User();
-        savedUser.setEmail("new@example.com");
-        savedUser.setPassword("encodedPassword");
-
-        when(passwordEncoder.encode("newPassword")).thenReturn("encodedPassword");
+        when(passwordEncoder.encode("NewPassword1")).thenReturn("encodedPassword");
         when(userService.saveUser(any(User.class))).thenReturn(savedUser);
 
         mockMvc.perform(post("/users")
@@ -104,6 +97,26 @@ public class UserControllerTest {
                 .andExpect(status().isCreated())
                 .andExpect(jsonPath("$.email").value("new@example.com"))
                 .andExpect(jsonPath("$.password").value("encodedPassword"));
+    }
+
+    @Test
+    public void testCreateUserInvalidEmail() throws Exception {
+        User user = new User("invalid-email", "NewPassword1");
+
+        mockMvc.perform(post("/users")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(user)))
+                .andExpect(status().isBadRequest());
+    }
+
+    @Test
+    public void testCreateUserInvalidPassword() throws Exception {
+        User user = new User("new@example.com", "short");
+
+        mockMvc.perform(post("/users")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(user)))
+                .andExpect(status().isBadRequest());
     }
 
     @Test
@@ -136,22 +149,22 @@ public class UserControllerTest {
         user.setPassword("oldPassword");
 
         when(userService.getUserByUuid("test-uuid")).thenReturn(Optional.of(user));
-        when(passwordEncoder.encode("newPassword")).thenReturn("encodedNewPassword");
+        when(passwordEncoder.encode("NewPassword1")).thenReturn("encodedNewPassword");
         when(userService.updateUserPassword("test-uuid", "encodedNewPassword")).thenReturn(Optional.of(user));
 
         mockMvc.perform(patch("/users/password")
                         .header("uuid", "test-uuid")
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(Map.of("newPassword", "newPassword"))))
+                        .content(objectMapper.writeValueAsString(Map.of("newPassword", "NewPassword1"))))
                 .andExpect(status().isOk());
     }
 
     @Test
-    public void testUpdateUserPasswordBadRequest() throws Exception {
+    public void testUpdateUserPasswordInvalidPassword() throws Exception {
         mockMvc.perform(patch("/users/password")
                         .header("uuid", "test-uuid")
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(Map.of("newPassword", ""))))
+                        .content(objectMapper.writeValueAsString(Map.of("newPassword", "short"))))
                 .andExpect(status().isBadRequest());
     }
 
@@ -162,7 +175,7 @@ public class UserControllerTest {
         mockMvc.perform(patch("/users/password")
                         .header("uuid", "test-uuid")
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(Map.of("newPassword", "newPassword"))))
+                        .content(objectMapper.writeValueAsString(Map.of("newPassword", "NewPassword1"))))
                 .andExpect(status().isNotFound());
     }
 }

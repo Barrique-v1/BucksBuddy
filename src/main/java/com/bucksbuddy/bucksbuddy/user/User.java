@@ -2,6 +2,9 @@ package com.bucksbuddy.bucksbuddy.user;
 
 import com.bucksbuddy.bucksbuddy.journey.Journey;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Pattern;
 
 import java.util.Set;
 
@@ -14,9 +17,13 @@ public class User {
     private int id;
 
     @Column(unique = true, nullable = false)
+    @Email(message = "Email should be valid")
+    @NotBlank(message = "Email cannot be empty")
     private String email;
 
     @Column(nullable = false)
+    @NotBlank(message = "Password cannot be empty")
+    @Pattern(regexp = "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d).{8,}$", message = "Password must be at least 8 characters long, contain an uppercase letter, a lowercase letter, and a number")
     private String password;
 
     @Column(nullable = false)

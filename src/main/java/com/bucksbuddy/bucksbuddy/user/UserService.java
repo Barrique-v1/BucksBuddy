@@ -1,5 +1,6 @@
 package com.bucksbuddy.bucksbuddy.user;
 
+import com.bucksbuddy.bucksbuddy.user.exceptions.EmailAlreadyRegisteredException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -11,16 +12,14 @@ public class UserService {
     @Autowired
     private UserRepository userRepository;
 
-    public boolean validate(String email, String password) {
-        Optional<User> user = userRepository.findByEmailAndPassword(email, password);
-        return user.isPresent();
-    }
-
     public Optional<User> getUserByEmail(String email) {
         return userRepository.findByEmail(email);
     }
 
     public User saveUser(User user) {
+        if (userRepository.findByEmail(user.getEmail()).isPresent()) {
+            throw new EmailAlreadyRegisteredException(user.getEmail());
+        }
         return userRepository.save(user);
     }
 
