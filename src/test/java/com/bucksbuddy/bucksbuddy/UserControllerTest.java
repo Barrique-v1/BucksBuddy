@@ -1,6 +1,7 @@
 package com.bucksbuddy.bucksbuddy;
 
 import com.bucksbuddy.bucksbuddy.user.*;
+import com.bucksbuddy.bucksbuddy.user.requests.UserLoginRequest;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

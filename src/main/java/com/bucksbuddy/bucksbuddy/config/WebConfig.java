@@ -1,6 +1,5 @@
 package com.bucksbuddy.bucksbuddy.config;
 
-import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
@@ -14,7 +13,7 @@ public class WebConfig implements WebMvcConfigurer {
                 // Erlaube Anfragen von mehreren Ursprüngen
                 .allowedOrigins(
                         "http://localhost:5173", "https://bucksbuddyfrontend.onrender.com")
-                .allowedMethods("GET", "POST", "PUT", "DELETE")
+                .allowedMethods("GET", "POST", "PUT", "DELETE", "PATCH")
                 .allowedHeaders("*")
                 .allowCredentials(true);
     }

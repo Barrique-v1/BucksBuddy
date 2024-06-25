@@ -35,7 +35,6 @@ public class Expenditure {
         this.journey = journey;
     }
 
-    // Getter und Setter
     public int getId() {
         return id;
     }

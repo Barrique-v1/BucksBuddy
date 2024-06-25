@@ -1,4 +1,4 @@
-package com.bucksbuddy.bucksbuddy.user;
+package com.bucksbuddy.bucksbuddy.user.requests;
 
 public class UserLoginRequest {
     private String email;

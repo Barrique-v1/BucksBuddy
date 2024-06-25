@@ -1,6 +1,5 @@
 package com.bucksbuddy.bucksbuddy.journey;
 
-import com.bucksbuddy.bucksbuddy.expenditure.Expenditure;
 import com.bucksbuddy.bucksbuddy.user.User;
 import com.bucksbuddy.bucksbuddy.user.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,7 +7,6 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.Set;
 
 @Service
 public class JourneyService {
@@ -20,11 +18,12 @@ public class JourneyService {
     private UserRepository userRepository;
 
     public List<Journey> getAllJourneys(String uuid) {
-        System.out.println("Fetching journeys for UUID: " + uuid); // Debugging-Informationen hinzufügen
+        System.out.println("Fetching journeys for UUID: " + uuid);
         List<Journey> journeys = journeyRepository.findAllByUser_Uuid(uuid);
-        System.out.println("Journeys found: " + journeys.size()); // Debugging-Informationen hinzufügen
+        System.out.println("Journeys found: " + journeys.size());
         return journeys;
     }
+
     public Optional<Journey> getJourneyById(int id) {
         return journeyRepository.findById(id);
     }
@@ -68,26 +67,5 @@ public class JourneyService {
 
     public Optional<String> getEndDate(int id) {
         return journeyRepository.findById(id).map(Journey::getEndDate);
-    }
-
-    public Optional<Journey> updateJourneyCurrency(int id, String currency) {
-        return journeyRepository.findById(id).map(journey -> {
-            journey.setHomeCurr(currency);
-            return journeyRepository.save(journey);
-        });
-    }
-
-    public Optional<Journey> updateJourneyBudget(int id, int budget) {
-        return journeyRepository.findById(id).map(journey -> {
-            journey.setBudget(budget);
-            return journeyRepository.save(journey);
-        });
-    }
-
-    public Optional<Journey> updateVacCurr(int id, String vacCurr) {
-        return journeyRepository.findById(id).map(journey -> {
-            journey.setVacCurr(vacCurr);
-            return journeyRepository.save(journey);
-        });
     }
 }

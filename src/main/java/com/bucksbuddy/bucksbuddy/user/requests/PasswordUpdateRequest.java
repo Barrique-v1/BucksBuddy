@@ -1,4 +1,4 @@
-package com.bucksbuddy.bucksbuddy.user;
+package com.bucksbuddy.bucksbuddy.user.requests;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;

@@ -16,15 +16,15 @@ public class UserService {
         return userRepository.findByEmail(email);
     }
 
+    public Optional<User> getUserByUuid(String uuid) {
+        return userRepository.findByUuid(uuid);
+    }
+
     public User saveUser(User user) {
         if (userRepository.findByEmail(user.getEmail()).isPresent()) {
             throw new EmailAlreadyRegisteredException(user.getEmail());
         }
         return userRepository.save(user);
-    }
-
-    public Optional<User> getUserByUuid(String uuid) {
-        return userRepository.findByUuid(uuid);
     }
 
     public void deleteUser(String uuid) {
